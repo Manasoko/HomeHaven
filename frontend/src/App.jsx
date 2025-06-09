@@ -4,16 +4,16 @@ import axios from "axios"
 
 import Navbar from "./components/layout/Navbar.jsx";
 import Footer from "./components/layout/Footer.jsx";
-import HomePage from "./components/home/HomePage.jsx";
-import LoginPage from "./components/pages/forms/LoginPage.jsx";
-import RegisterPage from "./components/pages/forms/RegisterPage.jsx";
-import PropertyPage from "./components/pages/PropertyPage.jsx";
-import PropertyDetail from "./components/pages/PropertyDetail.jsx";
-import Page404 from "./components/pages/404Page.jsx";
-import ConfirmEmail from "./components/pages/forms/ConfirmEmail.jsx";
-import ResetPassword from "./components/pages/forms/ResetPassword.jsx";
-import AddProperty from "./components/pages/forms/AddProperty.jsx";
-import Dashboard from "./components/dashboard/main.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import LoginPage from "./components/forms/LoginPage.jsx";
+import RegisterPage from "./components/forms/RegisterPage.jsx";
+import PropertyPage from "./pages/PropertyPage.jsx";
+import PropertyDetail from "./pages/PropertyDetail.jsx";
+import Page404 from "./pages/404Page.jsx";
+import ConfirmEmail from "./components/forms/ConfirmEmail.jsx";
+import ResetPassword from "./components/forms/ResetPassword.jsx";
+import AddProperty from "./components/forms/AddProperty.jsx";
+import Dashboard from "./pages/dashboard/main.jsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);

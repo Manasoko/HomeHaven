@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
-function Property({ src, desc, price, address, id }) {
+const Property = ({ src, desc, price, address, id }) => {
   const navigate = useNavigate();
 
   const goToProperty = () => {
@@ -15,30 +15,28 @@ function Property({ src, desc, price, address, id }) {
     navigate(`/property/${id}`, { state: property });
   };
 
+  // eslint-disable-next-line react/prop-types
   const images = src?.slice(0, 6) || [];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Function to go to the next image
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
-  // Function to go to the previous image
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
-
-  // Auto-slide effect every 3 seconds
+  
   useEffect(() => {
     if (images.length > 1) {
       const interval = setInterval(() => {
         nextSlide();
-      }, 3000); // Change image every 3 seconds
+      }, 3000);
 
-      return () => clearInterval(interval); // Cleanup on unmount
+      return () => clearInterval(interval);
     }
-  }, [currentIndex, images.length]); // Restart interval when index changes
+  }, [currentIndex, images.length, nextSlide]);
 
   return (
     <div className="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">

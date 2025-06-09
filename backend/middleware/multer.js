@@ -1,5 +1,5 @@
 const multer = require('multer');
-const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 
 // Storage for property images
 const fileStorage = multer.diskStorage({
@@ -7,8 +7,7 @@ const fileStorage = multer.diskStorage({
         cb(null, 'images');
     },
     filename: (req, file, cb) => {
-        const timestamp = new Date().toISOString().replace(/T/, '.').replace(/\..+/, '').replace(/:/g, '-');
-        cb(null, timestamp + '-' + file.originalname);
+        cb(null, uuidv4());
     }
 });
 
@@ -18,8 +17,7 @@ const profileImageStorage = multer.diskStorage({
         cb(null, 'images/profile');
     },
     filename: (req, file, cb) => {
-        const timestamp = new Date().toISOString().replace(/T/, '.').replace(/\..+/, '').replace(/:/g, '-');
-        cb(null, timestamp + '-' + file.originalname);
+        cb(null,uuidv4());
     }
 });
 

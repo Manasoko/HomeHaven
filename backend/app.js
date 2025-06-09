@@ -1,5 +1,3 @@
-const path = require('path');
-
 const dotenv = require('dotenv');
 const express = require('express');
 
@@ -23,7 +21,6 @@ const UserDb = require('./models/user');
 //Routes
 const authRoutes = require('./routes/auth');
 const propertyRoutes = require('./routes/property');
-const profileRoutes = require('./routes/profile');
 
 app.use(corsMiddleware);
 app.use(bodyParserMiddleware);

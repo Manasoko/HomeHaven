@@ -47,7 +47,7 @@ const AddProperty = () => {
     images.forEach((image) => formData.append("images", image.file));
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:7070/api/add-property",
         formData,
         {

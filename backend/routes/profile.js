@@ -1,5 +1,4 @@
 const express = require('express');
-const { UserDb } = require('../models/user');
 const { profileImageUpload } = require('../middleware/multer');
 const profileController = require('../controller/profile');
 

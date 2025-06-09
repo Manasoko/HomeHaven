@@ -1,5 +1,4 @@
-import Property from "../home/Property";
-import propertyData from "../../data/property";
+import Property from "../components/home/Property.jsx";
 import axios from "axios";
 import { useEffect, useState } from "react";
 

@@ -1,7 +1,7 @@
-import Slides from './Slides.jsx';
-import Property from "./Property.jsx";
-import Team from "./Team.jsx";
-import propertyData from "../../data/property.js";
+import Slides from '../components/home/Slides.jsx';
+import Property from "../components/home/Property.jsx";
+import Team from "../components/home/Team.jsx";
+import propertyData from "../data/property.js";
 
 
 function HomePage() {

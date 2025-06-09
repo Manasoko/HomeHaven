@@ -9,6 +9,7 @@ import {
   Transition,
 } from "@headlessui/react";
 
+// eslint-disable-next-line react/prop-types
 const Navbar = ({ isLogin }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -59,6 +60,7 @@ const Navbar = ({ isLogin }) => {
               <Menu as="div" className="relative w-full text-center">
                 <MenuButton className="flex items-center justify-center w-10 h-10 rounded-full">
                   <img
+                      alt="dummy profile image"
                     className="w-8 h-8 rounded-full"
                     src="https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8="
                   />
