@@ -1,11 +1,11 @@
-const express = require('express');
-const { body } = require('express-validator');
-const bcrypt = require('bcryptjs');
+import express from 'express';
+import { body } from 'express-validator';
+import bcrypt from 'bcryptjs';
 
-const authController = require('../controller/auth');
-const UserDB = require('../models/user');
+import * as authController from '../controller/auth.js';
+import UserDB from '../models/user.js';
+
 const router = express.Router();
-
 
 router.post(
     '/add-user',
@@ -87,4 +87,4 @@ router.post(
 
 router.post('/logout', authController.logout);
 
-module.exports = router;
+export default router;

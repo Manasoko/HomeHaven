@@ -1,7 +1,7 @@
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
-module.exports = [
+export default [
     bodyParser.json(),
     bodyParser.urlencoded({ extended: false }),
     cookieParser(),

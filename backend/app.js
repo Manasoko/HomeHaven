@@ -1,30 +1,26 @@
-const path = require('path');
+import path from 'path';
+import dotenv from 'dotenv';
+import express from 'express';
 
-const dotenv = require('dotenv');
-const express = require('express');
+import corsMiddleware from './middleware/cors.js';
+import sessionMiddleware from './middleware/session.js';
+import bodyParserMiddleware from './middleware/bodyParser.js';
+import { propertyImageUpload } from './middleware/multer.js';
+import errorHandlerMiddleware from './middleware/errorHandler.js';
+import staticFilesMiddleware from './middleware/staticFiles.js';
 
-const app = express()
+import sequelize from './utils/database.js';
+import { Property, Image } from './models/property.js';
+import UserDb from './models/user.js';
+
+import authRoutes from './routes/auth.js';
+import propertyRoutes from './routes/property.js';
+import profileRoutes from './routes/profile.js';
+
+const app = express();
 dotenv.config();
 
-//Middlewares
-const corsMiddleware = require('./middleware/cors');
-const sessionMiddleware = require('./middleware/session');
-const bodyParserMiddleware = require('./middleware/bodyParser');
-const { propertyImageUpload } = require('./middleware/multer');
-const errorHandlerMiddleware = require('./middleware/errorHandler');
-const staticFilesMiddleware = require('./middleware/staticFiles');
-
-//Models
-const sequelize = require('./utils/database');
-const { Property, Image } = require('./models/property');
-const UserDb = require('./models/user');
-
-
-//Routes
-const authRoutes = require('./routes/auth');
-const propertyRoutes = require('./routes/property');
-const profileRoutes = require('./routes/profile');
-
+// Middlewares
 app.use(corsMiddleware);
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware);
@@ -34,13 +30,12 @@ app.use(staticFilesMiddleware);
 app.use('/api', authRoutes);
 app.use('/api', propertyRoutes);
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(path.dirname(new URL(import.meta.url).pathname), 'images')));
 
 app.use(errorHandlerMiddleware);
 
-
-UserDb.hasMany(Property, {foreignKey: 'userId', onDelete: 'CASCADE'});
-Property.belongsTo(UserDb, {foreignKey: 'userId'});
+UserDb.hasMany(Property, { foreignKey: 'userId', onDelete: 'CASCADE' });
+Property.belongsTo(UserDb, { foreignKey: 'userId' });
 Property.hasMany(Image, { foreignKey: 'propertyId', as: 'images', onDelete: 'CASCADE' });
 Image.belongsTo(Property, { foreignKey: 'propertyId' });
 
@@ -60,7 +55,7 @@ app.get('/api/get-session', (req, res) => {
     try {
         await sequelize.sync();
         app.listen(process.env.SERVER_PORT, () => {
-            console.log('Server started ');
+            console.log('Server started');
         });
     } catch (error) {
         console.log(error);

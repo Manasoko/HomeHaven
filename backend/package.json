@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "It is the backend aspect of the homehaven web app and most probably for the phone app too",
   "main": "app.js",
   "scripts": {

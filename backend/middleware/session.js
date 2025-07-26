@@ -1,8 +1,10 @@
-const session = require('express-session');
-const sequelizeStore = require('connect-session-sequelize')(session.Store);
-const sequelize = require('../utils/database');
+import session from 'express-session';
+import connectSessionSequelize from 'connect-session-sequelize';
+import sequelize from '../utils/database.js';
 
-const sessionStore = new sequelizeStore({
+const SequelizeStore = connectSessionSequelize(session.Store);
+
+const sessionStore = new SequelizeStore({
     db: sequelize,
 });
 
@@ -17,4 +19,4 @@ const sessionMiddleware = session({
     },
 });
 
-module.exports = sessionMiddleware;
+export default sessionMiddleware;

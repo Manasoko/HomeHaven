@@ -1,4 +1,4 @@
-const multer = require('multer');
+import multer from 'multer';
 
 // Storage for property images
 const fileStorage = multer.diskStorage({
@@ -31,7 +31,5 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-module.exports = {
-    propertyImageUpload: multer({ storage: fileStorage, fileFilter }).array('images', 20),
-    profileImageUpload: multer({ storage: profileImageStorage }).single('profileImage'),
-};
+export const propertyImageUpload = multer({ storage: fileStorage, fileFilter }).array('images', 20);
+export const profileImageUpload = multer({ storage: profileImageStorage }).single('profileImage');

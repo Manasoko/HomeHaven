@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../utils/database");
-const User = require("./user");
+import Sequelize from "sequelize";
+import sequelize from "../utils/database.js";
+import User from "./user.js";
 
-const Property = sequelize.define(
+export const Property = sequelize.define(
     "Property",
     {
         id: {
@@ -11,12 +11,12 @@ const Property = sequelize.define(
             allowNull: false,
             primaryKey: true,
         },
-        price: {type: Sequelize.INTEGER, allowNull: false},
-        location: {type: Sequelize.STRING, allowNull: false},
-        description: {type: Sequelize.STRING, allowNull: false},
-        propertyType: {type: Sequelize.STRING},
-        bedRoomNo: {type: Sequelize.INTEGER, allowNull: false},
-        bathRoomNo: {type: Sequelize.INTEGER, allowNull: false},
+        price: { type: Sequelize.INTEGER, allowNull: false },
+        location: { type: Sequelize.STRING, allowNull: false },
+        description: { type: Sequelize.STRING, allowNull: false },
+        propertyType: { type: Sequelize.STRING },
+        bedRoomNo: { type: Sequelize.INTEGER, allowNull: false },
+        bathRoomNo: { type: Sequelize.INTEGER, allowNull: false },
         userId: {
             type: Sequelize.INTEGER,
             reference: {
@@ -39,10 +39,10 @@ const Property = sequelize.define(
     }
 );
 
-const Image = sequelize.define(
+export const Image = sequelize.define(
     "Image",
     {
-        url: {type: Sequelize.STRING, allowNull: false},
+        url: { type: Sequelize.STRING, allowNull: false },
         propertyId: {
             type: Sequelize.INTEGER,
             reference: {
@@ -64,8 +64,3 @@ const Image = sequelize.define(
         },
     }
 );
-
-module.exports = {
-    Property: Property,
-    Image: Image,
-};

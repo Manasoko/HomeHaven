@@ -1,8 +1,8 @@
-const cors = require('cors');
+import cors from 'cors';
 
 const corsOptions = {
     origin: process.env.CLIENT_PORT,
     credentials: true,
 };
 
-module.exports = cors(corsOptions);
+export default cors(corsOptions);

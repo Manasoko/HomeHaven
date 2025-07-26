@@ -1,20 +1,17 @@
-const { UserDb } = require('../models/user'); // Import Multer config
+import User from '../models/user.js';
 
-
-exports.uploadProfileImage = async (req, res) => {
+export async function uploadProfileImage(req, res) {
     try {
         if (!req.file) {
             return res.status(400).json({ message: 'No file uploaded' });
         }
 
-        // Get user ID from session
         const userId = req.session.user?.id;
         if (!userId) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        // Update user profile image path in the database
-        await UserDb.update(
+        await User.update(
             { profileImage: `/profile_images/${req.file.filename}` },
             { where: { id: userId } }
         );
@@ -24,17 +21,16 @@ exports.uploadProfileImage = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Error uploading profile image' });
     }
-};
+}
 
-exports.getProfile =  async (req, res) => {
+export async function getProfile(req, res) {
     try {
         const userId = req.session.user?.id;
         if (!userId) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        // Fetch user data from database
-        const user = await UserDb.findByPk(userId, { attributes: ['id', 'email', 'profileImage'] });
+        const user = await User.findByPk(userId, { attributes: ['id', 'email', 'profileImage'] });
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -45,20 +41,20 @@ exports.getProfile =  async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Error fetching user profile' });
     }
-};
+}
 
-exports.deleteProfileImage = async (req, res) => {
+export async function deleteProfileImage(req, res) {
     try {
         const userId = req.session.user?.id;
         if (!userId) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        await UserDb.update({ profileImage: null }, { where: { id: userId } });
+        await User.update({ profileImage: null }, { where: { id: userId } });
 
         res.status(200).json({ message: 'Profile image removed' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error removing profile image' });
     }
-};
+}

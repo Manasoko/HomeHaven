@@ -1,7 +1,7 @@
-const { Image, Property } = require('../models/property');
+import { Image, Property } from '../models/property.js';
 
-exports.addProperties = async (req, res, next) => {
-    const {propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo} = req.body;
+export const addProperties = async (req, res, next) => {
+    const { propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo } = req.body;
     const images = req.files;
     console.log(images);
 
@@ -26,12 +26,12 @@ exports.addProperties = async (req, res, next) => {
         console.log('Property is working now');
 
         if (req.files) {
-            const images = req.files.map(file => ({
+            const imagesArr = req.files.map(file => ({
                 url: `../images/${file.filename}`,
                 propertyId: property.id
             }));
 
-            await Image.bulkCreate(images);
+            await Image.bulkCreate(imagesArr);
         } else {
             console.log('No images uploaded');
         }
@@ -46,12 +46,12 @@ exports.addProperties = async (req, res, next) => {
         type: propertyType,
         desc: description,
         images: images ? images : 'There are no images uploaded'
-    })
+    });
 };
 
-exports.editProperties = async (req, res, next) => {
+export const editProperties = async (req, res, next) => {
     const propertyId = req.params.id;
-    const {propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo} = req.body;
+    const { propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo } = req.body;
     const images = req.files;
 
     const property = await Property.findByPk(propertyId);
@@ -81,10 +81,10 @@ exports.editProperties = async (req, res, next) => {
     }
     res.status(200).json({
         message: 'Successfully updated property'
-    })
-}
+    });
+};
 
-exports.getProperties = async (req, res, next) => {
+export const getProperties = async (req, res, next) => {
     try {
         const properties = await Property.findAll({
             include: [{

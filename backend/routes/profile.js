@@ -1,6 +1,6 @@
-const express = require('express');
-const { profileImageUpload } = require('../middleware/multer');
-const profileController = require('../controller/profile');
+import express from 'express';
+import { profileImageUpload } from '../middleware/multer.js';
+import * as profileController from '../controller/profile.js';
 
 const router = express.Router();
 
@@ -11,4 +11,4 @@ router.get('/profile', profileController.getProfile);
 
 router.delete('/profile-image', profileController.deleteProfileImage);
 
-module.exports = router;
+export default router;
