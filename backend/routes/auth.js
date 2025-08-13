@@ -1,5 +1,5 @@
 import express from 'express';
-import { body } from 'express-validator';
+import {body} from 'express-validator';
 import bcrypt from 'bcryptjs';
 
 import * as authController from '../controller/auth.js';
@@ -7,14 +7,15 @@ import UserDB from '../models/user.js';
 
 const router = express.Router();
 
+
 router.post(
     '/add-user',
     [
         body('email')
             .isEmail()
             .withMessage('Invalid email')
-            .custom(async (value, { req }) => {
-                const user = await UserDB.findOne({ where: { email: value } });
+            .custom(async (value, {req}) => {
+                const user = await UserDB.findOne({where: {email: value}});
                 if (user) {
                     return Promise.reject('Email is already in the database.');
                 }
@@ -24,7 +25,7 @@ router.post(
             .isLength({ min: 5 })
             .matches(/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]*$/)
             .withMessage('Password must be above 5 characters')
-            .custom((value, { req }) => {
+            .custom((value, {req}) => {
                 if (value !== req.body.confirmPassword) {
                     return Promise.reject("Passwords don't match");
                 }

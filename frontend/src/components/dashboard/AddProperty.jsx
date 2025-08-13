@@ -80,12 +80,12 @@ const AddProperty = () => {
 
         try {
             if (isEdit) {
-                await axios.put(`http://localhost:7070/api/edit-property/${id}`, formData, {
+                await axios.put(`http://localhost:7070/api/property/${id}`, formData, {
                     headers: {"Content-Type": "multipart/form-data"},
                 });
                 alert("Property updated!");
             } else {
-                await axios.post("http://localhost:7070/api/add-property", formData, {
+                await axios.post("http://localhost:7070/api/property", formData, {
                     headers: {"Content-Type": "multipart/form-data"},
                 });
                 alert("Property added!");

@@ -1,6 +1,7 @@
 import path from 'path';
-import dotenv from 'dotenv';
 import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import corsMiddleware from './middleware/cors.js';
 import sessionMiddleware from './middleware/session.js';
@@ -18,7 +19,6 @@ import propertyRoutes from './routes/property.js';
 import profileRoutes from './routes/profile.js';
 
 const app = express();
-dotenv.config();
 
 // Middlewares
 app.use(corsMiddleware);

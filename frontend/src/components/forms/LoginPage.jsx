@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true;
 
 export default function LoginPage() {
   const [inputs, setInputs] = useState({});
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (event) => {

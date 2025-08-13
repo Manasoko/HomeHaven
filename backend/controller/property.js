@@ -1,7 +1,7 @@
-import { Image, Property } from '../models/property.js';
+import {Image, Property} from '../models/property.js';
 
 export const addProperties = async (req, res, next) => {
-    const { propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo } = req.body;
+    const {propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo} = req.body;
     const images = req.files;
     console.log(images);
 
@@ -51,23 +51,25 @@ export const addProperties = async (req, res, next) => {
 
 export const editProperties = async (req, res, next) => {
     const propertyId = req.params.id;
-    const { propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo } = req.body;
+    const {propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo} = req.body;
     const images = req.files;
 
     const property = await Property.findByPk(propertyId);
 
-    property.location = propertyAddress;
-    property.price = price;
-    property.propertyType = propertyType;
-    property.description = description;
-    property.bedRoomNo = bedRoomNo;
-    property.bathRoomNo = bathRoomNo;
+    property.set({
+        location: propertyAddress,
+        price: price,
+        propertyType: propertyType,
+        description: description,
+        bedRoomNo: bedRoomNo,
+        bathRoomNo: bathRoomNo,
+    });
 
     await property.save();
     console.log("Property is updated");
 
     if (images && images.length > 0) {
-        await Image.destroy({ where: { propertyId: property.id } });
+        await Image.destroy({where: {propertyId: property.id}});
 
         const newImages = images.map(file => ({
             url: `../images/${file.filename}`,
@@ -101,5 +103,30 @@ export const getProperties = async (req, res, next) => {
         res.status(500).json({
             message: 'An error occurred'
         });
+    }
+};
+
+export const deleteProperty = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        console.log(id)
+        const property = await Property.findByPk(id);
+        if (!property) {
+            res.status(404).json({
+                message: "Property not found",
+            });
+        }
+
+        await property.destroy()
+
+        return res.status (200).json({
+            message: 'Successfully deleted property'
+        })
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            message: "An error occurred",
+            error: e.message
+        })
     }
 };

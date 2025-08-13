@@ -8,6 +8,15 @@ const DashboardPropertiesPage = () => {
     const [userId, setUserId] = useState(0);
     const navigate = useNavigate();
 
+    const deleteProperty = async (id) => {
+        try {
+            await axios.delete(`http://localhost:7070/api/property/${id}`);
+            alert("Property deleted!");
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     useEffect(() => {
         const getProperties = async () => {
             try {
@@ -90,6 +99,7 @@ const DashboardPropertiesPage = () => {
                                     {/* Delete Button */}
                                     <button
                                         className="flex items-center bg-blue-500 hover:bg-indigo-700 px-4 py-1 mx-1 rounded text-white"
+                                        onClick={() => deleteProperty(property.id)}
                                     >
                                         <TrashIcon className="size-4 fill-white/75" />
                                         Delete

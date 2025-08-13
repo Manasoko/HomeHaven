@@ -34,5 +34,13 @@ export default [
         { allowConstantExport: true },
       ],
     },
+    env: {
+      "browser": true,
+      "node": true,
+      "es2021": true,
+    },
+    globals: {
+      "process": "readonly",
+    }
   },
 ]
