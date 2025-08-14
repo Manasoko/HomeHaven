@@ -1,5 +1,6 @@
 import path from 'path';
 import express from 'express';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -18,6 +19,10 @@ import authRoutes from './routes/auth.js';
 import propertyRoutes from './routes/property.js';
 import profileRoutes from './routes/profile.js';
 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 
 // Middlewares
@@ -30,7 +35,7 @@ app.use(staticFilesMiddleware);
 app.use('/api', authRoutes);
 app.use('/api', propertyRoutes);
 
-app.use('/images', express.static(path.join(path.dirname(new URL(import.meta.url).pathname), 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(errorHandlerMiddleware);
 

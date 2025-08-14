@@ -117,7 +117,7 @@ export const deleteProperty = async (req, res, next) => {
             });
         }
 
-        await property.destroy()
+        await property.destroy();
 
         return res.status (200).json({
             message: 'Successfully deleted property'
