@@ -92,7 +92,8 @@ export const getProperties = async (req, res, next) => {
             include: [{
                 model: Image,
                 as: 'images'
-            }]
+            }],
+            order: [['createdAt', 'DESC']]
         });
 
         res.status(200).json({
