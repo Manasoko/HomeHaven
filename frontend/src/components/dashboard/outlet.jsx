@@ -6,7 +6,6 @@ const Sidebar = () => (
         <nav className="flex flex-col space-y-4">
             <Link to="/dashboard" className="hover:text-white hover:bg-gray-800 p-2 rounded">Dashboard</Link>
             <Link to="/dashboard/properties" className="hover:text-white hover:bg-gray-800 p-2 rounded">Properties</Link>
-            <a href="/edit-properties" className="hover:text-white hover:bg-gray-800 p-2 rounded">Edit Properties</a>
             <a href="/analytics" className="hover:text-white hover:bg-gray-800 p-2 rounded">Analytics</a>
             <a href="/billing" className="hover:text-white hover:bg-gray-800 p-2 rounded">Billing</a>
             <a href="/settings" className="hover:text-white hover:bg-gray-800 p-2 rounded">Settings</a>

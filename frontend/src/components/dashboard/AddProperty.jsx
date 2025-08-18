@@ -17,10 +17,10 @@ const initialInputs = {
 };
 
 const AddProperty = () => {
-    const { state: property } = useLocation();
+    const { state } = useLocation();
     const { id } = useParams();
     const navigate = useNavigate();
-    const isEdit = Boolean(property);
+    const isEdit = Boolean(state);
 
     const [images, setImages] = useState([]);
     const [inputs, setInputs] = useState(initialInputs);
@@ -29,25 +29,25 @@ const AddProperty = () => {
     useEffect(() => {
         if (isEdit) {
             setInputs({
-                propertyAddress: property.location ?? "",
-                price: property.price ?? "",
-                description: property.description ?? "",
-                propertyType: property.propertyType ?? "",
-                bedRoomNo: property.bedRoomNo ?? 0,
-                bathRoomNo: property.bathRoomNo ?? 0,
-                id: property.id ?? 0,
-                status: property.status ?? "",
+                propertyAddress: state.property.location ?? "",
+                price: state.property.price ?? "",
+                description: state.property.description ?? "",
+                propertyType: state.property.propertyType ?? "",
+                bedRoomNo: state.property.bedRoomNo ?? 0,
+                bathRoomNo: state.property.bathRoomNo ?? 0,
+                id: state.property.id ?? 0,
+                status: state.property.status ?? "",
             });
-            if (property.images?.length) {
+            if (state.property.images?.length) {
                 setImages(
-                    property.images.map((img) => ({
+                    state.property.images.map((img) => ({
                         preview: `${BASE_URL}/${img.url.replace("../", "")}`,
                         file: null,
                     }))
                 );
             }
         }
-    }, [property, isEdit]);
+    }, [state, isEdit]);
 
     useEffect(() => {
         return () => {

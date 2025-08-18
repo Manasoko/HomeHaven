@@ -6,7 +6,7 @@ function Property({src, desc, price, address, id, bathrooms, bedrooms}) {
     const navigate = useNavigate();
 
     const goToProperty = () => {
-        navigate(`/property/${id}`, {state: property});
+        navigate(`/property/${id}`);
     };
 
     // eslint-disable-next-line react/prop-types
