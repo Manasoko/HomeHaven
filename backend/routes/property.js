@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/property', propertyController.addProperties);
 router.get('/get-properties', propertyController.getProperties);
+router.get('/property/:id', propertyController.getProperty);
 router.put('/property/:id', propertyController.editProperties);
 router.delete('/property/:id', propertyController.deleteProperty);
 

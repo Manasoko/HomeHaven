@@ -12,6 +12,7 @@ const DashboardPropertiesPage = () => {
     try {
       await axios.delete(`http://localhost:7070/api/property/${id}`);
       alert("Property deleted!");
+      window.location.reload();
     } catch (e) {
       console.error(e);
     }

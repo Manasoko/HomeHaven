@@ -39,8 +39,8 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(errorHandlerMiddleware);
 
-UserDb.hasMany(Property, { foreignKey: 'userId', onDelete: 'CASCADE' });
-Property.belongsTo(UserDb, { foreignKey: 'userId' });
+UserDb.hasMany(Property, { foreignKey: 'userId', onDelete: 'CASCADE', as: 'properties' });
+Property.belongsTo(UserDb, { foreignKey: 'userId', as: 'agent' });
 Property.hasMany(Image, { foreignKey: 'propertyId', as: 'images', onDelete: 'CASCADE' });
 Image.belongsTo(Property, { foreignKey: 'propertyId' });
 

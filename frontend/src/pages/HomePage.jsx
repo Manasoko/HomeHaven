@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 import Slides from '../components/home/Slides.jsx';
 import Property from "../components/home/Property.jsx";
 import Team from "../components/home/Team.jsx";
-import propertyData from "../data/property.js";
 
 function HomePage() {
     const [properties, setProperties] = useState([]);
@@ -27,7 +26,7 @@ function HomePage() {
             <Slides />
             <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900 text-center dark:text-white">Recent Properties</h2>
-                <div className="mt-6 grid grid-cols-1 gap- sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {properties.map(data =>
                         <Property
                             className="h-full"

@@ -17,6 +17,7 @@ export const Property = sequelize.define(
         propertyType: { type: Sequelize.STRING },
         bedRoomNo: { type: Sequelize.INTEGER, allowNull: true },
         bathRoomNo: { type: Sequelize.INTEGER, allowNull: true },
+        status: { type: Sequelize.STRING, allowNull: false, defaultValue: "for sale" },
         userId: {
             type: Sequelize.INTEGER,
             reference: {

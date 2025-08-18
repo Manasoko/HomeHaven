@@ -38,6 +38,8 @@ export default function PropertyPage() {
                                 address={property.location}
                                 desc={property.description}
                                 price={property.price}
+                                bedrooms={property.bedRoomNo}
+                                bathrooms={property.bathRoomNo}
                             />
                         </div>
                     ))}

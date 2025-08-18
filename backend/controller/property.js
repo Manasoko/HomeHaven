@@ -1,7 +1,8 @@
 import {Image, Property} from '../models/property.js';
+import User from '../models/user.js';
 
 export const addProperties = async (req, res, next) => {
-    const {propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo} = req.body;
+    const {propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo, status} = req.body;
     const images = req.files;
     console.log(images);
 
@@ -21,6 +22,7 @@ export const addProperties = async (req, res, next) => {
             description: description,
             bedRoomNo: bedRoomNo,
             bathRoomNo: bathRoomNo,
+            status: status,
             userId: user.id
         });
         console.log('Property is working now');
@@ -51,7 +53,7 @@ export const addProperties = async (req, res, next) => {
 
 export const editProperties = async (req, res, next) => {
     const propertyId = req.params.id;
-    const {propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo} = req.body;
+    const {propertyAddress, price, propertyType, description, bathRoomNo, bedRoomNo, status} = req.body;
     const images = req.files;
 
     const property = await Property.findByPk(propertyId);
@@ -63,6 +65,7 @@ export const editProperties = async (req, res, next) => {
         description: description,
         bedRoomNo: bedRoomNo,
         bathRoomNo: bathRoomNo,
+        status: status
     });
 
     await property.save();
@@ -107,6 +110,28 @@ export const getProperties = async (req, res, next) => {
     }
 };
 
+export const getProperty = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const property = await Property.findByPk(id, {
+            include: [
+                {
+                    model: Image,
+                    as: 'images'
+                },
+                {
+                    model: User,
+                    as: 'agent',
+                    attributes: ["name", "email", "phoneNumber"]
+                }
+            ]
+        });
+        return res.status(200).json({property: property})
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 export const deleteProperty = async (req, res, next) => {
     const id = req.params.id;
     try {
@@ -120,7 +145,7 @@ export const deleteProperty = async (req, res, next) => {
 
         await property.destroy();
 
-        return res.status (200).json({
+        return res.status(200).json({
             message: 'Successfully deleted property'
         })
     } catch (e) {

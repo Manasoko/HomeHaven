@@ -2,16 +2,10 @@ import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
-function Property({src, desc, price, address, id}) {
+function Property({src, desc, price, address, id, bathrooms, bedrooms}) {
     const navigate = useNavigate();
 
     const goToProperty = () => {
-        const property = {
-            src: src,
-            desc: desc,
-            price: price,
-            address: address,
-        };
         navigate(`/property/${id}`, {state: property});
     };
 
