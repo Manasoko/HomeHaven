@@ -1,3 +1,5 @@
+import {Op} from 'sequelize';
+
 import {Image, Property} from '../models/property.js';
 import User from '../models/user.js';
 
@@ -99,9 +101,7 @@ export const getProperties = async (req, res, next) => {
             order: [['createdAt', 'DESC']]
         });
 
-        res.status(200).json({
-            properties: properties
-        });
+        res.status(200).json(properties);
     } catch (e) {
         console.log(e);
         res.status(500).json({
@@ -129,6 +129,10 @@ export const getProperty = async (req, res, next) => {
         return res.status(200).json({property: property})
     } catch (e) {
         console.log(e);
+        return res.status(500).json({
+            message: "An error occurred",
+            error: e.message
+        })
     }
 };
 
@@ -150,7 +154,37 @@ export const deleteProperty = async (req, res, next) => {
         })
     } catch (e) {
         console.log(e);
-        res.status(500).json({
+        return res.status(500).json({
+            message: "An error occurred",
+            error: e.message
+        })
+    }
+};
+
+export const searchProperties = async (req, res, next) => {
+    try {
+        const {address, minPrice, maxPrice, bedrooms, bathrooms, status} = req.query;
+
+        const where = {};
+        if (minPrice || maxPrice) {
+            where.price = {}
+            if (minPrice) where.price[Op.gte] = parseInt(minPrice);
+            if (maxPrice) where.price[Op.lte] = parseInt(maxPrice);
+        }
+        if (bedrooms) where.bedRoomNo = {[Op.gte]: parseInt(bedrooms)};
+        if (bathrooms) where.bathRoomNo = {[Op.gte]: parseInt(bathrooms)};
+        if (status) where.status = status;
+
+        const properties = await Property.findAll({
+            where, include: [{
+                model: Image,
+                as: 'images'
+            }],
+        });
+        return res.json(properties);
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
             message: "An error occurred",
             error: e.message
         })

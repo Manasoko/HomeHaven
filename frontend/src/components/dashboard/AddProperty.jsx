@@ -226,7 +226,6 @@ const AddProperty = () => {
     );
 };
 
-// Redesigned Helper Components
 
 const FormInput = ({ label, name, value, onChange, icon }) => (
     <div>

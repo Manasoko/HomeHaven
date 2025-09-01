@@ -1,8 +1,10 @@
 function Footer() {
+  const year = new Date().getFullYear();
+
   return (
     <footer className="bg-white dark:bg-gray-900 dark:rounded-none rounded-lg m-0 w-full p-4 md:flex md:items-center md:justify-between">
       <span className="text-sm text-black-500 sm:text-center dark:text-gray-400">
-        © 2024
+        © { year }
         <a href="/" className="hover:underline">
           {" "}
           HomeHaven
