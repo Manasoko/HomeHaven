@@ -10,9 +10,8 @@ function HomePage() {
     useEffect(() => {
         const getPropertyData = async () => {
             try {
-                const propertyData = await axios.get("http://localhost:7070/api/get-properties");
-                const propertiesData = propertyData.data.properties;
-                const recentProperties = propertiesData.splice(0, 4);
+                const propertiesData = await axios.get("http://localhost:7070/api/get-properties");
+                const recentProperties = propertiesData.data.splice(0, 4);
                 setProperties(recentProperties);
             } catch (e) {
                 console.log(e);
