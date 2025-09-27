@@ -26,7 +26,7 @@ const DashboardPropertiesPage = () => {
           axios.get("http://localhost:7070/api/get-session"),
         ]);
 
-        setProperties(propertiesRes.data.properties);
+        setProperties(propertiesRes.data);
         setUserId(userRes.data.user?.id || null);
       } catch (e) {
         console.error(e);
@@ -65,7 +65,7 @@ const DashboardPropertiesPage = () => {
           // Render the list of properties
           return userProperties.map((property) => (
             <div
-              className="bg-white shadow-md p-4 rounded-lg flex justify-between items-center"
+              className="bg-white dark:bg-gray-900 shadow-md p-4 rounded-lg flex justify-between items-center"
               key={property.id}
             >
               <div className="flex items-center space-x-4">
@@ -83,7 +83,7 @@ const DashboardPropertiesPage = () => {
                   className="w-24 h-16 object-cover rounded"
                 />
                 <div>
-                  <p className="text-sm text-gray-500">{property.location}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-200">{property.location}</p>
                   <p className="text-sm">
                     {property.bedRoomNo} Beds • {property.bathRoomNo} Baths
                   </p>

@@ -1,8 +1,7 @@
 import path from 'path';
 import express from 'express';
 import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 
 import corsMiddleware from './middleware/cors.js';
 import sessionMiddleware from './middleware/session.js';

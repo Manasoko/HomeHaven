@@ -166,7 +166,7 @@ export const searchProperties = async (req, res, next) => {
         const {address, minPrice, maxPrice, bedrooms, bathrooms, status} = req.query;
 
         const where = {};
-        if (address) where.address[Op.like] = address;
+        if (address) where.location = {[Op.like]: `%${address}%` };
         if (minPrice || maxPrice) {
             where.price = {}
             if (minPrice) where.price[Op.gte] = parseInt(minPrice);

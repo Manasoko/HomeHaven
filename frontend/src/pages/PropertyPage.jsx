@@ -75,11 +75,11 @@ export default function PropertyPage() {
                                     </svg>
                                 </div>
                             </div>
-                            <div className="flex-1.5">
+                            <div className="flex-1">
                                 <div className="flex gap-2">
                                     <input type="number" 
                                            placeholder="Min Price" 
-                                           className="w-full p-4 text-sm border-2 border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                           className="w-full p-2 text-sm border-2 border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                            min="1"
                                            name="minPrice"
                                            value={filters.minPrice}
@@ -87,7 +87,7 @@ export default function PropertyPage() {
                                     />
                                     <input type="number" 
                                            placeholder="Max Price" 
-                                           className="w-full p-4 text-sm border-2 border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                           className="w-full p-2 text-sm border-2 border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                            min="1"
                                            name="maxPrice"
                                            value={filters.maxPrice}
@@ -95,7 +95,7 @@ export default function PropertyPage() {
                                     />
                                    <input type="number"
                                           placeholder="Beds"
-                                          className="w-full p-4 text-sm border-2 border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                          className="w-full p-2 text-sm border-2 border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                           min="1"
                                           name="bedrooms"
                                           value={filters.bedrooms}
@@ -103,7 +103,7 @@ export default function PropertyPage() {
                                    />
                                    <input type="number"
                                           placeholder="Bathrooms"
-                                          className="w-full p-4 text-sm border-2 border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                          className="w-full p-2 text-sm border-2 border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                           min="1"
                                           name="bathrooms"
                                           value={filters.bathrooms}
@@ -154,7 +154,7 @@ export default function PropertyPage() {
                             </div>
                         ))
                     ) : (
-                        <p className="text-4xl col-span-full text-center">No results found.</p>
+                        <p className="text-4xl col-span-full text-center">No properties found.</p>
                     )}
                 </div>
             </div>
