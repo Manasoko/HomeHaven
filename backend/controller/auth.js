@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs';
 import { validationResult } from 'express-validator';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';

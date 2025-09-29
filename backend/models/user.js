@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
 import sequelize from "../utils/database.js";
+import bcrypt from "bcryptjs";
 
 const User = sequelize.define(
   "User",
@@ -13,7 +14,13 @@ const User = sequelize.define(
     name: { type: Sequelize.STRING, allowNull: false },
     email: { type: Sequelize.STRING, allowNull: false, unique: true },
     phoneNumber: { type: Sequelize.STRING, allowNull: false },
-    password: { type: Sequelize.STRING, allowNull: false },
+    password: { type: Sequelize.STRING, allowNull: true },
+    provider: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: "local",
+    },
+    providerId: { type: Sequelize.STRING, allowNull: true },
     profileImage: {
       type: Sequelize.STRING,
       allowNull: true,
@@ -36,8 +43,24 @@ const User = sequelize.define(
         );
         await sequelize.query("ALTER TABLE Properties AUTO_INCREMENT = 1;");
       },
+      beforeCreate: async (user) => {
+        if (user.password) {
+          const hashedPassword = await bcrypt.hash(user.password, 12);
+          user.password = hashedPassword;
+        }
+      },
+      beforeUpdate: async (user) => {
+        if (user.changed("password")) {
+          const hashedPassword = await bcrypt.hash(user.password, 12);
+          user.password = hashedPassword;
+        }
+      }
     },
   }
 );
+
+User.prototype.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
 
 export default User;

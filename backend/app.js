@@ -2,6 +2,7 @@ import path from 'path';
 import express from 'express';
 import { fileURLToPath } from 'url';
 import 'dotenv/config';
+import passport from 'passport';
 
 import corsMiddleware from './middleware/cors.js';
 import sessionMiddleware from './middleware/session.js';
@@ -37,6 +38,9 @@ app.use('/api', propertyRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(errorHandlerMiddleware);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 UserDb.hasMany(Property, { foreignKey: 'userId', onDelete: 'CASCADE', as: 'properties' });
 Property.belongsTo(UserDb, { foreignKey: 'userId', as: 'agent' });
