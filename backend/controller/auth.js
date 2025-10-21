@@ -23,6 +23,7 @@ export async function postSignup(req, res, next) {
             email: email,
             password: hashedPassword,
             phoneNumber: phoneNumber,
+            provider: user.provider
         });
         req.session.user = { username: username, email: email, id: user.id };
         req.session.isLoggedIn = true;
@@ -168,6 +169,7 @@ export async function resetPassword(req, res) {
 
 export function logout(req, res) {
     req.session.destroy(err => {
+        res.clearCookie("connect.sid");
         if (err) {
             return res.status(500).json({ message: 'Server error' });
         } else {

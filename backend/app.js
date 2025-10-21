@@ -17,7 +17,6 @@ import UserDb from './models/user.js';
 
 import authRoutes from './routes/auth.js';
 import propertyRoutes from './routes/property.js';
-import profileRoutes from './routes/profile.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -29,8 +28,13 @@ const app = express();
 app.use(corsMiddleware);
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware);
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(propertyImageUpload);
 app.use(staticFilesMiddleware);
+
+import './config/passport.js';
 
 app.use('/api', authRoutes);
 app.use('/api', propertyRoutes);
@@ -39,9 +43,6 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(errorHandlerMiddleware);
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 UserDb.hasMany(Property, { foreignKey: 'userId', onDelete: 'CASCADE', as: 'properties' });
 Property.belongsTo(UserDb, { foreignKey: 'userId', as: 'agent' });
 Property.hasMany(Image, { foreignKey: 'propertyId', as: 'images', onDelete: 'CASCADE' });
@@ -49,7 +50,7 @@ Image.belongsTo(Property, { foreignKey: 'propertyId' });
 
 app.get('/api/get-session', (req, res) => {
     console.log('Current session:', req.session);
-    if (req.session.isLoggedIn) {
+    if (req.session.passport && req.session.passport.user) {
         res.json({
             isLoggedIn: true,
             user: req.session.user

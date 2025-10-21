@@ -13,7 +13,7 @@ const User = sequelize.define(
     },
     name: { type: Sequelize.STRING, allowNull: false },
     email: { type: Sequelize.STRING, allowNull: false, unique: true },
-    phoneNumber: { type: Sequelize.STRING, allowNull: false },
+    phoneNumber: { type: Sequelize.STRING, allowNull: true },
     password: { type: Sequelize.STRING, allowNull: true },
     provider: {
       type: Sequelize.STRING,
@@ -21,7 +21,7 @@ const User = sequelize.define(
       defaultValue: "local",
     },
     providerId: { type: Sequelize.STRING, allowNull: true },
-    profileImage: {
+    avatar: {
       type: Sequelize.STRING,
       allowNull: true,
     },

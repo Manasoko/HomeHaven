@@ -9,6 +9,7 @@ const DashboardHome = () => {
         const getSession = async () => {
             try {
                 const response = await axios.get('http://localhost:7070/api/get-session');
+                console.log("Session response:", response.data);
                 setUser(response.data.user);
             } catch (error) {
                 console.log(error);
