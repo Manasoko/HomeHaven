@@ -50,7 +50,7 @@ Image.belongsTo(Property, { foreignKey: 'propertyId' });
 
 app.get('/api/get-session', (req, res) => {
     console.log('Current session:', req.session);
-    if (req.session.passport && req.session.passport.user) {
+    if ((req.session.passport && req.session.passport.user) || req.session.user) {
         res.json({
             isLoggedIn: true,
             user: req.session.user

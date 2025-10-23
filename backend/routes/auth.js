@@ -48,7 +48,7 @@ router.post(
       if (!user) {
         return Promise.reject("Email is not registered");
       }
-      const doMatch = await bcrypt.compare(value, user.password);
+      const doMatch = await user.comparePassword(value);
       if (!doMatch) {
         return Promise.reject("Incorrect Password");
       }
@@ -99,22 +99,18 @@ router.get(
 
 router.get(
   "/auth/google/callback",
-  (req, res, next) => {
-    console.log("Callback hit, query params:", req.query);
-    console.log("Session:", req.session);
-    next();
-  },
   passport.authenticate("google", { 
     failureRedirect: "/api/login",
-    failureMessage: true // This will provide more info
+    failureMessage: true
   }),
   (req, res) => {
     console.log("Google auth successful, redirecting...");
-    res.redirect(process.env.CLIENT_PORT + "/dashboard"); // or send JSON
+    res.redirect(process.env.CLIENT_PORT + "/"); // or send JSON
   }
 );
 
 router.get('/user', (req, res) => {
+  console.log(`isAuth: ${req.isAuthenticated()}\n User: ${req.user}`)
   if (req.isAuthenticated()) {
     res.json({
       id: req.user.id,

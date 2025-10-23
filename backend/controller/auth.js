@@ -16,8 +16,7 @@ export async function postSignup(req, res, next) {
         });
     }
     try {
-        const { username, email, password, phoneNumber } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 12);
+        const { username, email, phoneNumber } = req.body;
         const user = await UserDB.create({
             name: username,
             email: email,
@@ -151,8 +150,7 @@ export async function resetPassword(req, res) {
         }
 
         console.log('User password changing');
-
-        user.password = await bcrypt.hash(inputs.password, 12);
+        user.password = inputs.password;
         console.log('Changing?');
         user.resetPasswordToken = null;
         user.resetPasswordExpires = null;
