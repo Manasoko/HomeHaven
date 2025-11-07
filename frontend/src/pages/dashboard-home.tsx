@@ -6,22 +6,23 @@ const DashboardHome = () => {
     const [user, setUser] = useState();
 
     useEffect(() => {
-        const getSession = async () => {
+        const getUser = async () => {
             try {
-                const response = await axios.get('http://localhost:7070/api/get-session');
-                setUser(response.data.user);
+                const response = await axios.get('http://localhost:7070/api/user');
+                console.log("Session response:", response.data);
+                setUser(response.data);
             } catch (error) {
                 console.log(error);
             }
         };
-        getSession()
+        getUser()
     }, [])
 
     return (
 
         <div className="container mx-auto p-4">
             <div className="my-4">
-                <h1 className="text-3xl font-bold">Welcome, {user?.username || "User"}</h1>
+                <h1 className="text-3xl font-bold">Welcome, {user?.name || "User"}</h1>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white dark:bg-gray-700 shadow-md rounded-lg p-4">

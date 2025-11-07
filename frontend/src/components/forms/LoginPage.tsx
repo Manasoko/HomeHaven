@@ -20,7 +20,7 @@ export default function LoginPage() {
     console.log(inputs);
     try {
       await axios.post(
-        "http://localhost:7070/api/login-user",
+        "http://localhost:7070/api/login",
         inputs,
           { withCredentials: true}
       );
