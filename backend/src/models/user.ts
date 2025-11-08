@@ -1,18 +1,43 @@
-import Sequelize from "sequelize";
+import { Model, INTEGER, STRING, DATE, ENUM } from "sequelize";
+import type {
+  CreationOptional,
+  ModelStatic,
+  InferAttributes,
+  InferCreationAttributes,
+} from "sequelize";
 import sequelize from "../utils/database.js";
 import bcrypt from "bcryptjs";
 
-const User = sequelize.define(
+interface UserModel
+  extends Model<
+    InferAttributes<UserModel>,
+    InferCreationAttributes<UserModel>
+  > {
+  id: CreationOptional<number>;
+  name: string;
+  email: string;
+  phoneNumber: string | null;
+  password: string | null;
+  provider: "local" | "google" | "apple";
+  providerId: string | null;
+  avatar: string | null;
+  resetPasswordToken: string | null;
+  resetPasswordExpires: Date | null;
+
+  comparePassword(candidatePassword: string): Promise<boolean>;
+}
+
+const UserModel = sequelize.define<UserModel>(
   "User",
   {
     id: {
-      type: Sequelize.INTEGER,
+      type: INTEGER,
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
     },
     name: {
-      type: Sequelize.STRING,
+      type: STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -20,7 +45,7 @@ const User = sequelize.define(
       },
     },
     email: {
-      type: Sequelize.STRING,
+      type: STRING,
       allowNull: false,
       unique: true,
       validate: {
@@ -28,55 +53,60 @@ const User = sequelize.define(
       },
     },
     phoneNumber: {
-      type: Sequelize.STRING,
+      type: STRING,
       allowNull: true,
     },
     password: {
-      type: Sequelize.STRING,
+      type: STRING,
       allowNull: true,
       validate: {
         len: [8, 255], // Only validates if not null
-        isStrongPassword(value) {
-          if (this.provider === "local" && !value) {
-            throw new Error("Password required for local auth");
-          }
-        },
       },
     },
     provider: {
-      type: Sequelize.ENUM("local", "google", "facebook", "github"),
+      type: ENUM("local", "google", "apple"),
       allowNull: false,
       defaultValue: "local",
     },
-    providerId: { type: Sequelize.STRING, allowNull: true },
-    avatar: { type: Sequelize.STRING, allowNull: true },
-    resetPasswordToken: { type: Sequelize.STRING, allowNull: true },
-    resetPasswordExpires: { type: Sequelize.DATE, allowNull: true },
+    providerId: { type: STRING, allowNull: true },
+    avatar: { type: STRING, allowNull: true },
+    resetPasswordToken: { type: STRING, allowNull: true },
+    resetPasswordExpires: { type: DATE, allowNull: true },
   },
   {
     hooks: {
-      beforeCreate: async (user) => {
+      beforeValidate: async (user) => {
+        if (user.provider === "local" && !user.password) {
+          throw new Error("Password is required for local authentication");
+        }
+      },
+      beforeCreate: async (user: UserModel) => {
         if (user.password) {
           user.password = await bcrypt.hash(user.password, 12);
         }
       },
-      beforeUpdate: async (user) => {
+      beforeUpdate: async (user: UserModel) => {
         if (user.changed("password") && user.password) {
           user.password = await bcrypt.hash(user.password, 12);
         }
       },
     },
-    indexes: [
-      { unique: true, fields: ["email"] },
-      { fields: ["provider", "providerId"] },
-    ],
-  },
-  { logging: false }
+    tableName: "Users",
+  }
 );
 
-User.prototype.comparePassword = async function (candidatePassword) {
+interface UserModelStatic extends ModelStatic<UserModel> {
+  prototype: UserModel;
+}
+
+const User = UserModel as unknown as UserModelStatic;
+
+User.prototype.comparePassword = async function (
+  this: UserModel,
+  candidatePassword: string
+): Promise<boolean> {
   if (!this.password) return false;
-  return await bcrypt.compare(candidatePassword, this.password);
+  return bcrypt.compare(candidatePassword, this.password);
 };
 
 export default User;
