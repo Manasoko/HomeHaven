@@ -9,13 +9,13 @@ const sessionStore = new SequelizeStore({
 });
 
 const sessionMiddleware = session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'secret',
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
     cookie: {
         httpOnly: true,
-        maxAge: parseInt(process.env.COOKIE_MAX_AGE),
+        maxAge: parseInt(process.env.COOKIE_MAX_AGE || '86400000'), // Default 1 day
     },
 });
 

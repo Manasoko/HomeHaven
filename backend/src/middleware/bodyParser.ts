@@ -1,8 +1,8 @@
-import bodyParser from 'body-parser';
+import express from 'express';
 import cookieParser from 'cookie-parser';
 
 export default [
-    bodyParser.json(),
-    bodyParser.urlencoded({ extended: false }),
+    express.json(),
+    express.urlencoded({ extended: false }),
     cookieParser(),
 ];
