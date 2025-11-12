@@ -29,7 +29,6 @@ app.use(corsMiddleware);
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware);
 app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(propertyImageUpload);
 app.use(staticFilesMiddleware);
@@ -48,17 +47,17 @@ Property.belongsTo(UserDb, { foreignKey: 'userId', as: 'agent' });
 Property.hasMany(Image, { foreignKey: 'propertyId', as: 'images', onDelete: 'CASCADE' });
 Image.belongsTo(Property, { foreignKey: 'propertyId' });
 
-app.get('/api/get-session', (req, res) => {
-    console.log('Current session:', req.session);
-    if ((req.session.passport && req.session.passport.user) || req.session.user) {
-        res.json({
-            isLoggedIn: true,
-            user: req.session.user
-        });
-    } else {
-        res.json({ isLoggedIn: false });
-    }
-});
+// app.get('/api/get-session', (req, res) => {
+//     console.log('Current session:', req.session);
+//     if ((req.session.passport && req.session.passport.user) || req.session.user) {
+//         res.json({
+//             isLoggedIn: true,
+//             user: req.session.user
+//         });
+//     } else {
+//         res.json({ isLoggedIn: false });
+//     }
+// });
 
 (async () => {
     try {
