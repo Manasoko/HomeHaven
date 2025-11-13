@@ -1,9 +1,22 @@
 import express from "express";
+import type { Request, Response } from "express";
 import { body } from "express-validator";
 import passport from "passport";
 
+declare module "express-session" {
+  interface SessionData {
+    isLoggedIn?: boolean;
+    user?: {
+      id?: number;
+      email?: string;
+      username?: string;
+      name?: string;
+    };
+  }
+}
+
 import * as authController from "../controller/auth.js";
-import UserDB from "../models/user.js";
+import User from "../models/user.js";
 
 const router = express.Router();
 
@@ -14,7 +27,7 @@ router.post(
       .isEmail()
       .withMessage("Invalid email")
       .custom(async (value, { req }) => {
-        const user = await UserDB.findOne({ where: { email: value } });
+        const user = await User.findOne({ where: { email: value } });
         if (user) {
           return Promise.reject("Email is already in the database.");
         }
@@ -42,7 +55,7 @@ router.post(
   "/login",
   [
     body("password").custom(async (value, { req }) => {
-      const user = await UserDB.findOne({
+      const user = await User.findOne({
         where: { email: req.body.email },
       });
       if (!user) {
@@ -61,7 +74,7 @@ router.post(
   "/reset",
   [
     body("email").custom(async (value, { req }) => {
-      const user = await UserDB.findOne({
+      const user = await User.findOne({
         where: { email: req.body.email },
       });
       if (!user) {
@@ -89,7 +102,6 @@ router.post(
   authController.resetPassword
 );
 
-
 //3rd parties Auth
 //Google
 router.get(
@@ -99,9 +111,9 @@ router.get(
 
 router.get(
   "/auth/google/callback",
-  passport.authenticate("google", { 
+  passport.authenticate("google", {
     failureRedirect: "/api/login",
-    failureMessage: true
+    failureMessage: true,
   }),
   (req, res) => {
     console.log("Google auth successful, redirecting...");
@@ -109,18 +121,32 @@ router.get(
   }
 );
 
-router.get('/user', (req, res) => {
-  console.log(`isAuth: ${req.isAuthenticated()}\n User: ${req.user}`)
-  if (req.isAuthenticated()) {
-    res.json({
-      id: req.user.id,
-      name: req.user.name,
-      email: req.user.email,
-      provider: req.user.provider,
-      avatar: req.user.avatar
+router.get("/user", async (req: Request, res: Response) => {
+  try {
+    // Check session (your existing way)
+    if (!req.session.user?.id) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+
+    // Get user from database
+    const user = await User.findByPk(req.session.user.id, {
+      attributes: { exclude: ["password"] },
     });
-  } else {
-    res.status(401).json({ error: 'Not authenticated' });
+
+    if (!user) {
+      return res.status(401).json({ error: "User not found" });
+    }
+
+    res.json({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      avatar: user.avatar,
+      provider: user.provider,
+    });
+  } catch (error) {
+    console.error("Get user error:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 

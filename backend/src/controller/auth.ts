@@ -2,10 +2,7 @@ import { validationResult } from "express-validator";
 import type { Request, Response, NextFunction } from "express";
 import crypto from "crypto";
 import nodemailer, { type Transporter } from "nodemailer";
-import dotenv from "dotenv";
 import { Op } from "sequelize";
-
-dotenv.config();
 
 declare module "express-session" {
   interface SessionData {
