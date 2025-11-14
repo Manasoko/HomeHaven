@@ -3,14 +3,15 @@ import {useEffect, useState} from "react";
 import Slides from '../components/home/Slides.jsx';
 import Property from "../components/home/Property.jsx";
 import Team from "../components/home/Team.jsx";
+import type { PropertyType } from "../types/property.ts";
 
-function HomePage() {
-    const [properties, setProperties] = useState([]);
+const HomePage: React.FC = () => {
+    const [properties, setProperties] = useState<PropertyType[]>([]);
 
     useEffect(() => {
         const getPropertyData = async () => {
             try {
-                const propertiesData = await axios.get("http://localhost:7070/api/get-properties");
+                const propertiesData = await axios.get<PropertyType[]>("http://localhost:7070/api/get-properties");
                 const recentProperties = propertiesData.data.splice(0, 4);
                 setProperties(recentProperties);
             } catch (e) {

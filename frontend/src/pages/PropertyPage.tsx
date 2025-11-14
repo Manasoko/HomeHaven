@@ -1,8 +1,10 @@
-import Property from "../components/home/Property.jsx";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function PropertyPage() {
+import Property from "../components/home/Property.jsx";
+import type { PropertyType } from "../types/property.ts";
+
+const PropertyPage: React.FC = () => {
     const initialFilters = {
         address: "",
         minPrice: "",
@@ -11,12 +13,12 @@ export default function PropertyPage() {
         bathrooms: "",
         status: ""
     }
-    const [properties, setProperties] = useState([]);
+    const [properties, setProperties] = useState<PropertyType[]>([]);
     const [filters, setFilters] = useState(initialFilters);
 
     const getProperties = async () => {
         try {
-            const response = await axios.get('http://localhost:7070/api/get-properties');
+            const response = await axios.get<PropertyType[]>('http://localhost:7070/api/get-properties');
             setProperties(response.data);
         } catch (error) {
             console.log(error);
@@ -25,7 +27,7 @@ export default function PropertyPage() {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get('http://localhost:7070/api/search-properties', {
+            const response = await axios.get<PropertyType[]>('http://localhost:7070/api/search-properties', {
                 params: filters
             });
             setProperties(response.data);
@@ -34,7 +36,7 @@ export default function PropertyPage() {
         }
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFilters({ ...filters, [e.target.name]: e.target.value });
     };
 
@@ -43,7 +45,7 @@ export default function PropertyPage() {
     }
 
     useEffect(() => {
-        getProperties()
+        getProperties();
     }, []);
 
     return (
@@ -145,7 +147,7 @@ export default function PropertyPage() {
                                 <Property
                                     id={property.id}
                                     src={property.images.map(image => image.url)}
-                                    address={property.location}
+                                    address={property.address}
                                     desc={property.description}
                                     price={property.price}
                                     bedrooms={property.bedRoomNo}
@@ -160,4 +162,6 @@ export default function PropertyPage() {
             </div>
         </div>
     )
-}
+};
+
+export default PropertyPage;

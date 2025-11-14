@@ -1,19 +1,33 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-export default function PropertyDetail() {
+import type { PropertyType, Image } from "../types/property";
+
+interface PropertyDetails extends PropertyType {
+  agent: {
+    name: string;
+    email: string;
+    phoneNumber: string;
+  };
+  agentPhoto?: string;
+  parking?: string;
+  area?: number;
+  propertyType?: string;
+  furnished?: boolean;
+}
+const PropertyDetail: React.FC = () => {
   const { id } = useParams();
-  const [property, setProperty] = useState(null);
+  const [property, setProperty] = useState<PropertyDetails | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<Image[]>([]);
 
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const response = await axios.get(`http://localhost:7070/api/property/${id}`);
-        setProperty(response.data.property);
-        setImages(response.data.property.images);
+        const response = await axios.get<PropertyDetails>(`http://localhost:7070/api/property/${id}`);
+        setProperty(response.data);
+        setImages(response.data.images);
       } catch (error) {
         console.error("Error fetching property:", error);
       }
@@ -112,7 +126,7 @@ export default function PropertyDetail() {
               
               {/* Thumbnails */}
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                {images.map((img, idx) => (
+                {images.map((_img, idx) => (
                   <button
                     key={idx}
                     className={`w-3 h-3 rounded-full border-2 transition-all ${
@@ -223,4 +237,6 @@ export default function PropertyDetail() {
       </div>
     </div>
   );
-}
+};
+
+export default PropertyDetail;

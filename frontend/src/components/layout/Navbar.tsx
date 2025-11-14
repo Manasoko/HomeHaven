@@ -9,14 +9,18 @@ import {
   Transition,
 } from "@headlessui/react";
 
-const Navbar = ({ isLogin }) => {
+interface NavbarProps {
+  isLogin: boolean;
+}
+
+const Navbar: React.FC<NavbarProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const logout = async () => {
     try {
       await axios.post("http://localhost:7070/api/logout");
-      isLogin = false;
+      props.isLogin = false;
       navigate("/login");
       window.location.reload();
     } catch (e) {
@@ -38,7 +42,7 @@ const Navbar = ({ isLogin }) => {
           >
             Properties
           </Link>
-          {!isLogin ? (
+          {!props.isLogin ? (
             <>
               <Link
                 to="/login"
@@ -156,7 +160,7 @@ const Navbar = ({ isLogin }) => {
 
         {/* Mobile Navigation Links */}
         <div className="py-4">
-          {isLogin ? (
+          {props.isLogin ? (
             <>
               {/* User Profile Section */}
               <div className="px-4 py-3 border-b dark:border-gray-700">

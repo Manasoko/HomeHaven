@@ -9,13 +9,13 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  const handleData = async (event) => {
+  const handleData = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log(inputs);
     try {
@@ -26,7 +26,7 @@ export default function LoginPage() {
       );
       navigate("/");
       window.location.reload();
-    } catch (error) {
+    } catch (error: any) {
       if (error.response) {
         const { status, data } = error.response;
         if (status === 400 || status === 422) {

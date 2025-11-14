@@ -15,7 +15,7 @@ interface SearchQuery {
 }
 
 interface PropertyWhereClause {
-  location?: {
+  address?: {
     [Op.like]: string;
   };
   price?: {
@@ -58,7 +58,7 @@ export const addProperties = async (
 
   try {
     const property = await Property.create({
-      location: propertyAddress,
+      address: propertyAddress,
       price: price,
       propertyType: propertyType,
       description: description,
@@ -117,7 +117,7 @@ export const editProperties = async (
   }
 
   property.set({
-    location: propertyAddress,
+    address: propertyAddress,
     price: price,
     propertyType: propertyType,
     description: description,
@@ -192,7 +192,7 @@ export const getProperty = async (
         },
       ],
     });
-    return res.status(200).json({ property: property });
+    return res.status(200).json(property);
   } catch (e: any) {
     console.log(e);
     return res.status(500).json({
@@ -241,7 +241,7 @@ export const searchProperties = async (
     const where: PropertyWhereClause = {};
 
     if (address) {
-      where.location = { [Op.like]: `%${address}%` };
+      where.address = { [Op.like]: `%${address}%` };
     }
 
     if (minPrice || maxPrice) {

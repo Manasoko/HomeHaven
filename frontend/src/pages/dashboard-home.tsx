@@ -2,13 +2,21 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 
+interface User {
+    id: number;
+    email: string;
+    name: string;
+    avatar?: string;
+    provider?: string;
+}
+
 const DashboardHome = () => {
-    const [user, setUser] = useState();
+    const [user, setUser] = useState<User>();
 
     useEffect(() => {
         const getUser = async () => {
             try {
-                const response = await axios.get('http://localhost:7070/api/user');
+                const response = await axios.get<User>('http://localhost:7070/api/user');
                 console.log("Session response:", response.data);
                 setUser(response.data);
             } catch (error) {

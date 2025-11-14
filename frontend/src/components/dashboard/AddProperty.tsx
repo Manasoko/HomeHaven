@@ -29,7 +29,7 @@ const AddProperty = () => {
     useEffect(() => {
         if (isEdit) {
             setInputs({
-                propertyAddress: state.property.location ?? "",
+                propertyAddress: state.property.address ?? "",
                 price: state.property.price ?? "",
                 description: state.property.description ?? "",
                 propertyType: state.property.propertyType ?? "",

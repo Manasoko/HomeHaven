@@ -83,7 +83,7 @@ const DashboardPropertiesPage = () => {
                   className="w-24 h-16 object-cover rounded"
                 />
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-200">{property.location}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-200">{property.address}</p>
                   <p className="text-sm">
                     {property.bedRoomNo} Beds • {property.bathRoomNo} Baths
                   </p>

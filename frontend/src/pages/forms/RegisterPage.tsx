@@ -1,42 +1,39 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import axios, {isAxiosError} from "axios";
 
-import SocialLoginButtons from "../@ui/SocialLoginButtons";
+
+import SocialLoginButtons from "../../components/@ui/forms/SocialLoginButtons"
 
 axios.defaults.withCredentials = true;
 
 export default function RegisterPage() {
-  const [inputs, setInputs] = useState({});
-  const [error, setError] = useState();
+  const [inputs, setInputs] = useState<Record<string, string>>({});
+  const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setError(null);
     try {
-      console.log(inputs);
       const response = await axios.post(
         "http://localhost:7070/api/add-user",
         inputs
       );
-      console.log("User added", response);
       if (response.data.redirect) {
         window.location.href = response.data.redirect;
       }
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        setError(error.response.data.error);
-      } else if (error.response.status === 422) {
-        setError(error.response.data.error);
-      } else {
-        console.log(error);
-        setError("An unexpected error occurred. Please try again.");
-      }
+      const message =
+        isAxiosError(error) && error.response?.data?.error
+          ? error.response.data.error
+          : "An error occurred. Please try again.";
+      setError(message);
     }
   };
   return (

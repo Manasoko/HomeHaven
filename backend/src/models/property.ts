@@ -14,7 +14,7 @@ interface PropertyModel
   > {
   id: CreationOptional<number>;
   price: number;
-  location: string;
+  address: string;
   description: string;
   propertyType: string | null;
   bedRoomNo: number | null;
@@ -43,7 +43,7 @@ export const Property = sequelize.define<PropertyModel>(
             primaryKey: true,
         },
         price: { type: INTEGER, allowNull: false },
-        location: { type: STRING, allowNull: false },
+        address: { type: STRING, allowNull: false },
         description: { type: STRING, allowNull: false },
         propertyType: { type: STRING },
         bedRoomNo: { type: INTEGER, allowNull: true },

@@ -1,39 +1,46 @@
 import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
-// eslint-disable-next-line react/prop-types
-function Property({src, desc, price, address, id, bathrooms, bedrooms}) {
+interface PropertyProps {
+    className?: string;
+    src: string[];
+    desc: string;
+    price: number;
+    address: string;
+    id: number;
+    bathrooms?: number;
+    bedrooms?: number;
+}
+
+const Property: React.FC<PropertyProps> = (props) => {
+    const {address, price, desc, src} = props;
     const navigate = useNavigate();
 
     const goToProperty = () => {
-        navigate(`/property/${id}`);
+        navigate(`/property/${props.id}`);
     };
 
-    // eslint-disable-next-line react/prop-types
     const images = src?.slice(0, 6);
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    // Function to go to the next image
     const nextSlide = () => {
         setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
     };
 
-    // Function to go to the previous image
     const prevSlide = () => {
         setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
     };
 
-    // Auto-slide effect every 3 seconds
     useEffect(() => {
         if (images.length > 1) {
             const interval = setInterval(() => {
                 nextSlide();
-            }, 3000); // Change image every 3 seconds
+            }, 3000);
 
-            return () => clearInterval(interval); // Cleanup on unmount
+            return () => clearInterval(interval);
         }
-    }, [currentIndex, images.length]); // Restart interval when index changes
+    }, [currentIndex, images.length]);
 
     return (
         <div className="mx-auto bg-white border border-gray-200 rounded-2xl shadow-lg dark:bg-gray-800 dark:border-gray-700 h-full flex flex-col">
